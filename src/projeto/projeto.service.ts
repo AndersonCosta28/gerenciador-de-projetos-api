@@ -1,9 +1,6 @@
-import { HttpException, Injectable, NotFoundException, Query } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { error } from 'console';
-import { throwError } from 'rxjs';
-import { Colaborador } from 'src/colaborador/colaborador.entity';
-import { createQueryBuilder, getConnection, Repository } from 'typeorm';
+import { createQueryBuilder, Repository } from 'typeorm';
 import { Projeto } from './Projeto.entity';
 
 @Injectable()
@@ -28,27 +25,33 @@ export class ProjetoService {
     }
 
     async update(id: number, body: Projeto) {
-        if (await this.find(id)) {            
+        if (await this.find(id)) {
             const colaboradores = body.colaboradores.map(valor => valor.id);
-            const result = 
-            await createQueryBuilder('projeto_colaboradores_colaborador', 'pcc') // Filtrando a tabela ManyToMany
-                .innerJoin('colaborador', 'c')
-                .innerJoinAndSelect('projeto', 'p')
-                .where('c.id = pcc_colaboradorId')
-                .andWhere('p_ativo = true')       // ON do inner join
-                .andWhere('p_id = pcc_projetoId') // ON do inner join
-                .andWhere(':data between p.inicio and p.fim ', { data: body.inicio }) // Filtra se a data do projeto corrente é está entre a data de algum projeto em andamento
-                .andWhere('pcc_colaboradorId in (:...colaboradores)', { colaboradores: colaboradores }) // Lista de colaboradores que irá chegar do front-end
-                .andWhere('pcc_projetoId <> :id', {id: id}) // Não filtrar pelo mesmo projeto
-                .getRawMany()
-            if (!!result.length) { // Se for encontrado mais de                
+            const result =
+                await createQueryBuilder('projeto_colaboradores_colaborador', 'pcc') // Filtrando a tabela ManyToMany
+                    .innerJoin('colaborador', 'c')
+                    .innerJoinAndSelect('projeto', 'p')
+                    .where('c.id = pcc_colaboradorId')
+                    .andWhere('p_ativo = true')       // ON do inner join
+                    .andWhere('p_id = pcc_projetoId') // ON do inner join
+                    .andWhere(':data between p.inicio and p.fim ', { data: body.inicio }) // Filtra se a data do projeto corrente é está entre a data de algum projeto em andamento
+                    .andWhere('pcc_colaboradorId in (:...colaboradores)', { colaboradores: colaboradores }) // Lista de colaboradores que irá chegar do front-end
+                    .andWhere('pcc_projetoId <> :id', { id: id }) // Não filtrar pelo mesmo projeto
+                    .getRawMany()
+            if (!!result.length) { // Se for encontrado mais de 1 registro não é para cadastrar               
                 throw new HttpException("Não pode fazer associar colaboradores que já estão presentes em outros projetos ativos", 500)
             }
             else {
                 body.id = id;
-                //await this.model.update({ id: id }, body)
-                await this.model.save(body)                       // Aqui eu sobreponho a tabela com as alterações que devem ser também validadas no front-end
-                return "Sucesso ao alterar a tarefa do id: " + id;
+                //await this.model.update({ id: id }, body)       // Estava dando erro ao fazer o update, foi trocado pelo save
+                try {
+                    await this.model.save(body)                       // Aqui eu sobreponho a tabela com as alterações que devem ser também validadas no front-end
+                    return "Sucesso ao alterar a tarefa do id: " + id;
+                }
+                catch (e) {
+                    console.log(e)
+                    throw new HttpException('Ocorreu algum erro durante a atualização do dados por favor verificar o log', 500);                    
+                }
             }
         }
         else {
