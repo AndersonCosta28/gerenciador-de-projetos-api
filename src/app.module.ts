@@ -1,3 +1,4 @@
+import { AuthModule } from './modules/auth.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
@@ -7,6 +8,7 @@ import { ColaboradorModule } from './modules/colaborador.module';
 import { UsuarioModule } from './modules/usuario.module';
 @Module({
   imports: [
+    AuthModule,
     TypeOrmModule.forRoot(),
     ProjetoModule,
     ColaboradorModule,

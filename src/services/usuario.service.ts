@@ -46,4 +46,8 @@ export class UsuarioService {
             throw new NotFoundException(`Não foi possível excluir o usuario: ${id}`)
         }
     }
+
+    async findOne(username: string): Promise<Usuario> {
+        return await this.model.findOne({where: {usuario: username}});
+      }
 }

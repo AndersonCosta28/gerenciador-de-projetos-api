@@ -14,7 +14,7 @@ export class Usuario{
     @IsString()
     senha: string;
 
-    @Column({nullable: false})
+    @Column({nullable: false, default: true})
     @IsBoolean()
     ativo: boolean;
 
