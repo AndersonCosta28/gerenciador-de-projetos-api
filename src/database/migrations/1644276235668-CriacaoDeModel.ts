@@ -5,7 +5,7 @@ export default class CriacaoDeModel1644276235668 implements MigrationInterface {
     name = 'CriacaoDeModel1644276235668'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`CREATE TABLE "colaborador" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "nome" varchar NOT NULL, "cargo" varchar NOT NULL, "admissao" datetime NOT NULL, "ativo" boolean DEFAULT (1), "criado_em" datetime NOT NULL DEFAULT (datetime('now')), "atualizado_em" datetime NOT NULL DEFAULT (datetime('now')))`);
+        await queryRunner.query(`CREATE TABLE "colaborador" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "nome" varchar NOT NULL UNIQUE, "cargo" varchar NOT NULL, "admissao" datetime NOT NULL, "ativo" boolean DEFAULT (1), "criado_em" datetime NOT NULL DEFAULT (datetime('now')), "atualizado_em" datetime NOT NULL DEFAULT (datetime('now')))`);
         await queryRunner.query(`CREATE TABLE "projeto" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "nome" varchar NOT NULL, "descricao" varchar, "inicio" datetime NOT NULL, "fim" datetime, "ativo" boolean DEFAULT (1), "criado_em" datetime NOT NULL DEFAULT (datetime('now')), "atualizado_em" datetime NOT NULL DEFAULT (datetime('now')))`);
         await queryRunner.query(`CREATE TABLE "usuario" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "usuario" varchar NOT NULL, "senha" varchar NOT NULL, "ativo" boolean NOT NULL, CONSTRAINT "UQ_9921cd8ed63a072b8f93ead80f0" UNIQUE ("usuario"))`);
         await queryRunner.query(`CREATE TABLE "projeto_colaboradores_colaborador" ("projetoId" integer NOT NULL, "colaboradorId" integer NOT NULL, PRIMARY KEY ("projetoId", "colaboradorId"))`);

@@ -20,12 +20,14 @@ export class ProjetoService {
     }
 
     async create(body: Projeto) {
+        body.nome = body.nome.toLocaleUpperCase()
         const taskCreated = this.model.save(body);
         return taskCreated;
     }
 
     async update(id: number, body: Projeto) {
         if (await this.find(id)) {
+            body.nome = body.nome.toLocaleUpperCase()
             const colaboradores = body.colaboradores.map(valor => valor.id);
             const result =
                 await createQueryBuilder('projeto_colaboradores_colaborador', 'pcc') // Filtrando a tabela ManyToMany
@@ -50,7 +52,7 @@ export class ProjetoService {
                 }
                 catch (e) {
                     console.log(e)
-                    throw new HttpException('Ocorreu algum erro durante a atualização do dados por favor verificar o log', 500);                    
+                    throw new HttpException('Ocorreu algum erro durante a atualização do dados por favor verificar o log', 500);
                 }
             }
         }
