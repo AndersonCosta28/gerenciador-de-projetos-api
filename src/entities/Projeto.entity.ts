@@ -1,4 +1,5 @@
-import { Colaborador } from "src/colaborador/colaborador.entity";
+import { IsBoolean, IsDateString, IsNumber, IsString } from "class-validator";
+import { Colaborador } from "src/entities/colaborador.entity";
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 @Entity()
 export class Projeto {
@@ -6,18 +7,23 @@ export class Projeto {
     id: number;
 
     @Column({ nullable: false })
+    @IsString()
     nome: string;
 
     @Column({ nullable: true })
+    @IsString()
     descricao: string
 
     @Column({ nullable: false })
+    @IsDateString()
     inicio: Date
 
     @Column({ nullable: true })
+    @IsDateString()
     fim: Date
 
     @Column({ nullable: true, default: true })
+    @IsBoolean()
     ativo: Boolean
     
     @CreateDateColumn()

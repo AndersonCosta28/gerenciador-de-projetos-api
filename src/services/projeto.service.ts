@@ -1,7 +1,7 @@
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { createQueryBuilder, Repository } from 'typeorm';
-import { Projeto } from './Projeto.entity';
+import { Projeto } from '../entities/Projeto.entity';
 
 @Injectable()
 export class ProjetoService {
@@ -65,7 +65,7 @@ export class ProjetoService {
             return true
         }
         else {
-            throw new NotFoundException('Deu ruim')
+            throw new NotFoundException(`Não foi possível excluir o projeto: ${id}`)
         }
     }
 }

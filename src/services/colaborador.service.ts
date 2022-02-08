@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Colaborador } from './colaborador.entity';
+import { Colaborador } from '../entities/colaborador.entity';
 
 @Injectable()
 export class ColaboradorService {
@@ -42,7 +42,7 @@ export class ColaboradorService {
             return true
         }
         else{
-            throw new NotFoundException('Deu ruim')
+            throw new NotFoundException(`Não foi possível excluir o colaborador: ${id}`)
         }
     }
 }

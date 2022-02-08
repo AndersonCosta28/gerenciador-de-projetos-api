@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { IsBoolean, IsDate, IsString, IsNumber } from 'class-validator';
+import { IsBoolean, IsDateString, IsNumber, IsString } from 'class-validator';
 @Entity()
 export class Colaborador {
     @PrimaryGeneratedColumn()
@@ -14,7 +14,7 @@ export class Colaborador {
     cargo: string
 
     @Column({ nullable: false })
-    @IsDate()
+    @IsDateString()
     admissao: Date
 
     @Column({ nullable: true, default: true })

@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
-import { Colaborador } from './colaborador.entity';
-import { ColaboradorService } from './colaborador.service';
+import { Colaborador } from '../entities/colaborador.entity';
+import { ColaboradorService } from '../services/colaborador.service';
 
 @Controller('colaborador')
 export class ColaboradorController {

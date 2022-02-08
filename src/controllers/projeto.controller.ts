@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
-import { Projeto } from './Projeto.entity';
-import { ProjetoService } from './projeto.service';
+import { Projeto } from '../entities/Projeto.entity';
+import { ProjetoService } from '../services/projeto.service';
 
 @Controller('projeto')
 export class ProjetoController {
