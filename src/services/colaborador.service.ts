@@ -33,7 +33,9 @@ export class ColaboradorService {
     async update(id: number, body: Colaborador) {
         if (await this.find(id)) {
             body.id = id;
-            await this.model.update({ id: id }, body)
+            const colaboradorAtualizado = await this.model.create(body)
+            //await this.model.update({ id: id }, body) // Desabilitado por não ativar a gatilho
+            await this.model.save(colaboradorAtualizado)
             return "Sucesso ao alterar a tarefa do id: " + id;
         }
         else {

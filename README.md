@@ -46,6 +46,7 @@ npm run start
 
 Obs.:
 * O token retornado <a href="#etapa_4">(etapa 4)</a> tem tempo de expiração de 1 hora, caso expire é necessário fazer o login novamente <a href="#etapa_3">(etapa 3)</a>, gerando um novo TOKEN.
+* Use a [rota](http://localhost:3000/api/) `http://localhost:3000/api/` para ver documentação da api
 
 ## :handshake: Colaboradores
 <table>

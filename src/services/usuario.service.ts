@@ -23,7 +23,6 @@ export class UsuarioService {
     async create(body: Usuario) {
         try {
             const usuario = this.model.create(body) // Instanciando a model para as trigger funcionar. Fonte: https://github.com/typeorm/typeorm/issues/5530
-     // Instanciando a model para as trigger funcionar. Fonte: https://github.com/typeorm/typeorm/issues/5530
             const NovoUsuario = await this.model.save(usuario); // Eu uso o save com meu objeto instanciado
             return NovoUsuario;
         }
