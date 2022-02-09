@@ -52,7 +52,7 @@ Obs.:
   <tr>
     <td align="center">
       <a href="https://github.com/Mert1s">
-        <img src="https://avatars.githubusercontent.com/u/70107407?v=4" alt="Foto de Mert1s no GitHub"/><br>
+        <img src="https://avatars.githubusercontent.com/u/70107407?v=4" width="100px;" alt="Foto de Mert1s no GitHub"/><br>
         <sub>
           <b>Mert1s</b>
         </sub>
