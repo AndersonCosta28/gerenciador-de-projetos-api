@@ -8,7 +8,7 @@ API afim de gerenciar projetos com nome, data, status e colabores participantes.
 * <b>CRUD de projetos</b>: Manipulação de projetos.
 * <b>CRUD de colaboradores</b>: Manipulação de colaboradores.
 * <b>CRUD de usuarios</b>: Manipulação de usuarios.
-* <b>Info de rotas do projeto</b>: Documento da API
+* <b>Info de rotas do projeto</b>: [Documento da API](http://localhost:3000/api/)
 
 ## :wrench: Tecnologias utilizadas
 * [NestJS](https://nestjs.com/)
