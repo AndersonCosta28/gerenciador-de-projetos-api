@@ -1,16 +1,18 @@
-import { IsBoolean, IsDateString, IsNumber, IsString } from "class-validator";
+import { IsBoolean, IsDateString, IsOptional, IsString, MinLength } from "class-validator";
 import { Colaborador } from "src/entities/colaborador.entity";
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, IsNull, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 @Entity()
 export class Projeto {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ nullable: false })
+    @Column({ nullable: false, unique: true })
     @IsString()
+    @MinLength(8)
     nome: string;
 
-    @Column({ nullable: true })
+    @Column({ nullable: true, default: "" })
+    @IsOptional()
     @IsString()
     descricao: string
 
@@ -18,11 +20,13 @@ export class Projeto {
     @IsDateString()
     inicio: Date
 
-    @Column({ nullable: true })
+    @Column({ nullable: true })    
+    @IsOptional()
     @IsDateString()
-    fim: Date
+    fim: Date;
 
     @Column({ nullable: true, default: true })
+    @IsOptional()
     @IsBoolean()
     ativo: Boolean
     
@@ -35,4 +39,15 @@ export class Projeto {
     @ManyToMany(type => Colaborador, {eager: true})
     @JoinTable()
     colaboradores: Colaborador[];
+
+    @BeforeInsert() // Não funciona
+    insertToUpperCase(){
+        this.nome = this.nome.toUpperCase().trim()
+    }
+
+
+    @BeforeUpdate() // Não funciona
+    updateToUpperCase(){
+        this.nome = this.nome.toUpperCase().trim()
+    }
 }

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Colaborador } from '../entities/colaborador.entity';
@@ -15,28 +15,29 @@ export class ColaboradorService {
             return resultado;
         }
         else {
-            throw new NotFoundException('Não achamos o ID: ' + id);
+            throw new HttpException('Não encontramos um colaborador com esse ID: ' + id, 500);
         }
     }
 
     async create(body: Colaborador) {
-        body.nome = body.nome.toLocaleUpperCase()
-        body.cargo = body.cargo.toLocaleUpperCase()
-        const taskCreated = this.model.save(body);
-        return taskCreated;
+        try {
+            const NovoColaborador = this.model.create(body); // Instanciando a model para as trigger funcionar. Fonte: https://github.com/typeorm/typeorm/issues/5530 
+            return await this.model.save(NovoColaborador);
+        }
+        catch (e) {
+            console.log(e)
+            throw new HttpException('Erro interno, verificar os logs', 500);
+        }
     }
 
     async update(id: number, body: Colaborador) {
         if (await this.find(id)) {
             body.id = id;
-            body.nome = body.nome.toLocaleUpperCase()
-            body.cargo = body.cargo.toLocaleUpperCase()
-            console.log(body)
             await this.model.update({ id: id }, body)
             return "Sucesso ao alterar a tarefa do id: " + id;
         }
         else {
-            throw new NotFoundException('Deu ruim')
+            throw new HttpException('Não encontramos um colaborador com esse ID: ' + id, 500);
         }
     }
 
@@ -46,7 +47,7 @@ export class ColaboradorService {
             return true
         }
         else {
-            throw new NotFoundException(`Não foi possível excluir o colaborador: ${id}`)
+            throw new NotFoundException(`Não foi possível excluir o colaborador do ID: ${id}`)
         }
     }
 }

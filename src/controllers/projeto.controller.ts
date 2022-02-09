@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards, ValidationPipe } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/guard/jwt-auth.guard';
 import { Projeto } from '../entities/Projeto.entity';
 import { ProjetoService } from '../services/projeto.service';
@@ -18,7 +18,7 @@ export class ProjetoController {
     }
     @UseGuards(JwtAuthGuard)
     @Post()
-    async create(@Body() body: Projeto): Promise<Projeto> {
+    async create(@Body(ValidationPipe) body: Projeto): Promise<Projeto> {
         return this.projetoService.create(body)
     }
     @UseGuards(JwtAuthGuard)

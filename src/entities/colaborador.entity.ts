@@ -1,5 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { IsBoolean, IsDateString, IsNumber, IsString } from 'class-validator';
+import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { IsBoolean, IsDateString, IsNumber, IsOptional, IsString, MinLength } from 'class-validator';
 @Entity()
 export class Colaborador {
     @PrimaryGeneratedColumn()
@@ -7,10 +7,12 @@ export class Colaborador {
 
     @Column({ nullable: false })
     @IsString()
+    @MinLength(2)
     nome: string
 
     @Column({ nullable: false })
     @IsString()
+    @MinLength(4)
     cargo: string
 
     @Column({ nullable: false })
@@ -18,6 +20,7 @@ export class Colaborador {
     admissao: Date
 
     @Column({ nullable: true, default: true })
+    @IsOptional()
     @IsBoolean()
     ativo: boolean
 
@@ -26,4 +29,18 @@ export class Colaborador {
 
     @UpdateDateColumn()
     atualizado_em: Date;
+
+    @BeforeInsert()
+    insertToUpperCase(){
+        this.nome = this.nome.toUpperCase().trim();
+        this.cargo = this.cargo.toUpperCase().trim();
+
+    }
+
+
+    @BeforeUpdate()
+    updateToUpperCase(){
+        this.nome = this.nome.toUpperCase().trim();
+        this.cargo = this.cargo.toUpperCase().trim()
+    }
 }

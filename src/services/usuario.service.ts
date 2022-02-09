@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Usuario } from 'src/entities/usuario.entity';
 import { Repository } from 'typeorm';
@@ -16,24 +16,33 @@ export class UsuarioService {
             return resultado;
         }
         else {
-            throw new NotFoundException('Não achamos o ID: ' + id);
+            throw new HttpException('Não encontramos um usuario com esse ID: ' + id, 500);
         }
     }
 
     async create(body: Usuario) {
-        const taskCreated = this.model.save(body);
-        return taskCreated;
+        try {
+            const usuario = this.model.create(body) // Instanciando a model para as trigger funcionar. Fonte: https://github.com/typeorm/typeorm/issues/5530
+     // Instanciando a model para as trigger funcionar. Fonte: https://github.com/typeorm/typeorm/issues/5530
+            const NovoUsuario = await this.model.save(usuario); // Eu uso o save com meu objeto instanciado
+            return NovoUsuario;
+        }
+        catch (e) {
+            console.log(e)
+            throw new HttpException('Erro interno, verificar os logs', 500);
+        }
     }
 
     async update(id: number, body: Usuario) {
         if (await this.find(id)) {
             body.id = id;
-            console.log(body)
-            await this.model.update({ id: id }, body)
+            const usuario = this.model.create(body);  // Instanciando a model para as trigger funcionar. Fonte: https://github.com/typeorm/typeorm/issues/5530
+            await this.model.save(usuario);
+            //await this.model.update({ id: id }, body);
             return "Sucesso ao alterar a tarefa do id: " + id;
         }
         else {
-            throw new NotFoundException('Deu ruim')
+            throw new HttpException('Não encontramos um usuario com esse ID:', 500)
         }
     }
 
@@ -43,11 +52,11 @@ export class UsuarioService {
             return true
         }
         else {
-            throw new NotFoundException(`Não foi possível excluir o usuario: ${id}`)
+            throw new HttpException(`Não foi possível excluir o usuario do ID: ${id}`, 500)
         }
     }
 
     async findOne(username: string): Promise<Usuario> {
-        return await this.model.findOne({where: {usuario: username}});
-      }
+        return await this.model.findOne({ where: { usuario: username } });
+    }
 }
