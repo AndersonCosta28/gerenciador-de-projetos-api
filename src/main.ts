@@ -7,13 +7,15 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe())
   const config = new DocumentBuilder()
-    .setTitle('API BlockHub')
-    .setDescription('Desafio proposto pela BlockHub')
+    .setTitle('Gerenciamento de projetos e colaboradores')
+    .setDescription('API afim de gerenciar projetos com nome, data, status e colabores participantes.')
     .setVersion('1.0')
-    .addTag('BlockHub')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-  await app.listen(3000);
+  const port = process.env.PORT || 3000
+  await app.listen(port, () => {
+    console.log('Servidor iniciado na porta: ' + port)
+  })
 }
 bootstrap();
