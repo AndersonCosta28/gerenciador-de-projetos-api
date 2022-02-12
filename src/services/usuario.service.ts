@@ -1,4 +1,4 @@
-import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Usuario } from 'src/entities/usuario.entity';
 import { Repository } from 'typeorm';
@@ -22,9 +22,8 @@ export class UsuarioService {
 
     async create(body: Usuario) {
         try {
-            const usuario = this.model.create(body) // Instanciando a model para as trigger funcionar. Fonte: https://github.com/typeorm/typeorm/issues/5530
-            const NovoUsuario = await this.model.save(usuario); // Eu uso o save com meu objeto instanciado
-            return NovoUsuario;
+            const usuario = this.model.create(body) // Instanciando a model para as trigger funcionar. Fonte: https://github.com/typeorm/typeorm/issues/5530            
+            return await this.model.save(usuario)// Eu uso o save com meu objeto instanciado
         }
         catch (e) {
             console.log(e)
@@ -34,10 +33,10 @@ export class UsuarioService {
 
     async update(id: number, body: Usuario) {
         if (await this.find(id)) {
-            body.id = id;
+            //await this.model.update({ id: id }, body) // Desabilitado por não ativar a gatilho
+            body.id = id; // Para não dar erro de UNIQUE na hora de gravar no banco
             const usuario = this.model.create(body);  // Instanciando a model para as trigger funcionar. Fonte: https://github.com/typeorm/typeorm/issues/5530
             await this.model.save(usuario);
-            //await this.model.update({ id: id }, body);
             return "Sucesso ao alterar a tarefa do id: " + id;
         }
         else {
@@ -47,8 +46,7 @@ export class UsuarioService {
 
     async delete(id: number) {
         if (await this.find(id)) {
-            await this.model.delete({ id: id })
-            return true
+            return !!(await this.model.delete({ id: id })).affected // retorna linha afetadas, caso 0 será false, caso diferente de 0 é true
         }
         else {
             throw new HttpException(`Não foi possível excluir o usuario do ID: ${id}`, 500)

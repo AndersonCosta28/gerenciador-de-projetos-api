@@ -32,9 +32,9 @@ export class ColaboradorService {
 
     async update(id: number, body: Colaborador) {
         if (await this.find(id)) {
-            body.id = id;
-            const colaboradorAtualizado = await this.model.create(body)
             //await this.model.update({ id: id }, body) // Desabilitado por não ativar a gatilho
+            body.id = id; // Para não dar erro de UNIQUE na hora de gravar no banco
+            const colaboradorAtualizado = await this.model.create(body)
             await this.model.save(colaboradorAtualizado)
             return "Sucesso ao alterar a tarefa do id: " + id;
         }
@@ -45,8 +45,7 @@ export class ColaboradorService {
 
     async delete(id: number) {
         if (await this.find(id)) {
-            await this.model.delete({ id: id })
-            return true
+            return !!(await this.model.delete({ id: id })).affected // retorna linha afetadas, caso 0 será false, caso diferente de 0 é true
         }
         else {
             throw new NotFoundException(`Não foi possível excluir o colaborador do ID: ${id}`)
