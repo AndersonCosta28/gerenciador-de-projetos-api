@@ -4,7 +4,6 @@ import { UsuarioModule } from './usuario.module';
 import { LocalStrategy } from 'src/strategy/local.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from 'src/constants';
 import { JwtStrategy } from 'src/strategy/jwt.strategy';
 import * as dotenv from 'dotenv'
 dotenv.config({ path: __dirname + '/.env' })
