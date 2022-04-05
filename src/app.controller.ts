@@ -2,9 +2,9 @@ import { Controller, Get, Request, Post, UseGuards, Body } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiProperty } from '@nestjs/swagger';
 import { AppService } from './app.service';
-import { JwtAuthGuard } from './guard/jwt-auth.guard';
-import { LocalAuthGuard } from './guard/local-auth.guard';
-import { AuthService } from './services/auth.service';
+import { JwtAuthGuard } from './auth/guard/jwt-auth.guard';
+import { LocalAuthGuard } from './auth/guard/local-auth.guard';
+import { AuthService } from './auth/auth.service';
 import { UserAuthDto } from './util/user-auth.dto';
 
 @Controller()

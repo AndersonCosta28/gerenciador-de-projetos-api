@@ -40,7 +40,7 @@ npm run start
 ## :runner: Como funciona:
 1. Executar os <a href="#rodando_o_projeto">comandos para compilar e iniciar o projeto</a>
 2. Com o [Postman](https://www.postman.com/) ou [Insomnia](https://insomnia.rest/download), acessar a [rota de login](http://localhost:3000/auth/login) `http://localhost:3000/auth/login`, ele irá usar a porta 3000
-3. <span id="etapa_3">No método POST iremos passar no corpo da requisição `{"username": "admin", "password": "1234"}`, este é o usuário padrão criado a partir da migration</span>
+3. <span id="etapa_3">No método POST iremos passar no corpo da requisição `{"username": "admin", "password": "123456"}`, este é o usuário padrão criado a partir da migration</span>
 4. <span id="etapa_4">O retorno da requisição acima será um TOKEN JWT que iremos utilizar</span>
 5. Esse TOKEN iremos usar na aba de autorização para utilizar em todos os outros endpoint's, o type é Bearer token, [segue print](https://i.ibb.co/g64YFDh/postman-usando-o-token.png) <img src ="https://i.ibb.co/g64YFDh/postman-usando-o-token.png" alt="Postman, login">
 

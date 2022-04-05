@@ -1,7 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsBoolean, IsDateString, IsOptional, IsString, MinLength } from "class-validator";
-import { Colaborador } from "src/entities/colaborador.entity";
-import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, IsNull, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Colaborador } from "src/colaborador/colaborador.entity";
+import { projeto_colaborador } from "src/projeto_colaborador/projeto_colaborador.entity";
+import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, IsNull, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 @Entity()
 export class Projeto {
     @PrimaryGeneratedColumn()
@@ -19,12 +20,12 @@ export class Projeto {
     @IsString()
     descricao: string
 
-    @Column({ nullable: false })
+    @Column({ nullable: false, type: 'date' })
     @ApiProperty() // Informação para API    
     @IsDateString()
     inicio: Date
 
-    @Column({ nullable: true })
+    @Column({ nullable: true, type: 'date' })
     @ApiProperty() // Informação para API
     @IsOptional()
     @IsDateString()
@@ -42,13 +43,13 @@ export class Projeto {
     @UpdateDateColumn()
     atualizado_em: Date;
 
-    @ManyToMany(type => Colaborador, { eager: true, cascade: true })
-    @JoinTable()
-    colaboradores: Colaborador[];
+    @OneToMany(() => projeto_colaborador, projeto_colaborador => projeto_colaborador.projeto)
+    projeto_colaborador!: projeto_colaborador[]
 
     @BeforeInsert()
     insertToUpperCase() {
         this.nome = this.nome.toUpperCase().trim()
+        
     }
 
     @BeforeUpdate()

@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/guard/jwt-auth.guard';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { util } from 'src/util/controller.util';
-import { Colaborador } from '../entities/colaborador.entity';
-import { ColaboradorService } from '../services/colaborador.service';
+import { Colaborador } from './colaborador.entity';
+import { ColaboradorService } from './colaborador.service';
 
 @Controller('colaborador')
 export class ColaboradorController {

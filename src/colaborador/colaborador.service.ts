@@ -1,7 +1,7 @@
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Colaborador } from '../entities/colaborador.entity';
+import { Colaborador } from './colaborador.entity';
 
 @Injectable()
 export class ColaboradorService {

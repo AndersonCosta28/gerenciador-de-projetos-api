@@ -1,7 +1,12 @@
 {
-    "type": "sqlite",
-    "database": "src/database/db.sqlite",
-    "entities": ["dist/entities/*.entity{.ts,.js}"],
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "postgres",
+    "password": "admin",
+    "database": "test",
+    "synchronize": false,
+    "entities": ["dist/**/*.entity{.ts,.js}"],
     "migrations": ["dist/database/migrations/**/*{.ts,.js}"],
     
     "cli": {

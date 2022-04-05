@@ -1,7 +1,7 @@
 import { IsBoolean, IsOptional, IsString, MinLength } from "class-validator";
 import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { crypto } from "src/util/crypto.util";
 import { ApiProperty } from "@nestjs/swagger";
+import * as bcrypt from 'bcrypt';
 
 @Entity()
 export class Usuario {
@@ -18,8 +18,7 @@ export class Usuario {
     
     @Column({
         type: "varchar",
-        nullable: false,
-        transformer: crypto
+        nullable: false
     })
     @ApiProperty() // Informação para API
     @IsString()
@@ -41,12 +40,15 @@ export class Usuario {
 
     @BeforeInsert()
     insertToUpperCase() {
+        const salt = bcrypt.genSaltSync(10);
+        this.senha = bcrypt.hashSync(this.senha, salt);
         this.usuario = this.usuario.toUpperCase().trim()
     }
 
     @BeforeUpdate()
     updateToUpperCase() {
-        this.usuario = this.usuario.toUpperCase().trim()
+        const salt = bcrypt.genSaltSync(10);
+        this.senha = bcrypt.hashSync(this.senha, salt);
+        this.usuario = this.usuario.toUpperCase().trim()        
     }
-
 }

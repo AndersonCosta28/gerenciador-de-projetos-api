@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
+  process.env.TZ = 'America/Bahia';
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe())
   const config = new DocumentBuilder()
@@ -14,7 +15,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);  
-  const port = process.env.PORT || 3000
+  const port = process.env.PORT || 8080
   await app.listen(port, () => {
     console.log('Servidor iniciado na porta: ' + port)
   })

@@ -1,10 +1,10 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards, ValidationPipe } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { ClassTransformer } from 'class-transformer';
-import { JwtAuthGuard } from 'src/guard/jwt-auth.guard';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { util } from 'src/util/controller.util';
-import { Projeto } from '../entities/projeto.entity';
-import { ProjetoService } from '../services/projeto.service';
+import { Projeto } from './Projeto.entity';
+import { ProjetoService } from './projeto.service';
 
 
 

@@ -1,6 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Usuario } from 'src/entities/usuario.entity';
+import { Usuario } from 'src/usuario/usuario.entity';
 import { Repository } from 'typeorm';
 
 

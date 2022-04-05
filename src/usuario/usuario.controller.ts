@@ -1,7 +1,7 @@
-import { UsuarioService } from 'src/services/usuario.service';
+import { UsuarioService } from 'src/usuario/usuario.service';
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
-import { Usuario } from 'src/entities/usuario.entity';
-import { JwtAuthGuard } from 'src/guard/jwt-auth.guard';
+import { Usuario } from 'src/usuario/usuario.entity';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { util } from 'src/util/controller.util';
 

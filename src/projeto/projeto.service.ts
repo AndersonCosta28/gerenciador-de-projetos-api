@@ -1,7 +1,7 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { createQueryBuilder, Repository } from 'typeorm';
-import { Projeto } from '../entities/projeto.entity';
+import { Projeto } from './Projeto.entity';
 
 @Injectable()
 export class ProjetoService {
@@ -38,7 +38,7 @@ export class ProjetoService {
             try {
                 body.id = id; // Para não dar erro de UNIQUE na hora de gravar no banco
                 this.validarData(body) // Verifica se a data de inicio é menor que a data de inicio
-                await this.validarColaboradoresPresenteEmOutrosProjetos(body, id) // Verifica se os colaboradores enviados estão presentes em outros projetos no mesmo período
+                // await this.validarColaboradoresPresenteEmOutrosProjetos(body, id) // Verifica se os colaboradores enviados estão presentes em outros projetos no mesmo período
                 const projetoAtualizado = await this.model.create(body) // Instancia o objeto para ativar os gatilhos no ENTITY
                 await this.model.save(projetoAtualizado)                   // Aqui eu sobreponho o registro com as alterações enviadas pelo front-end
                 return "Sucesso ao alterar a tarefa do id: " + id;
@@ -60,35 +60,10 @@ export class ProjetoService {
             throw new HttpException(`Não foi possível excluir o projeto do ID: ${id}`, 500)
         }
     }
-
-
     /*Aqui abaixo existirão funções de validações de dados*/
-
-
 
     validarData(body: Projeto) {
         if (body.fim !== undefined && body.inicio > body.fim) // Se o usuario fornecedor a data de fim, ela não pode ser inferior a data de inicio
             throw new HttpException('A data de fim não pode ser inferior a data de inicio', 500);
-    }
-
-    async validarColaboradoresPresenteEmOutrosProjetos(body: Projeto, id: number): Promise<void> {
-        const colaboradores = body.colaboradores == undefined ? [] : body.colaboradores.map(valor => valor.id); // Lista de colaboradores que recebemos do front-end para atualizar no projeto
-        const result =
-            await createQueryBuilder('projeto_colaboradores_colaborador', 'pcc') // Filtrando a tabela ManyToMany
-                .innerJoinAndSelect('colaborador', 'c')
-                .innerJoinAndSelect('projeto', 'p')
-                .where('c.id = pcc_colaboradorId')// ON do inner join
-                .andWhere('p_id = pcc_projetoId') // ON do inner join
-                .andWhere('p_ativo = true')
-                .andWhere('c_ativo = true')
-                .andWhere("date(:data) between date(p.inicio) and ifnull(fim,date('now'))", { data: body.inicio }) // Filtra se a data do projeto corrente é está entre a data de algum projeto em andamento
-                .andWhere('pcc_colaboradorId in (:...colaboradores)', { colaboradores: colaboradores }) // Lista de colaboradores que irá chegar do front-end
-                .andWhere('pcc_projetoId <> :id', { id: id }) // Não filtrar pelo mesmo projeto
-                .getRawMany();
-
-        if (!!result.length) { // Se for encontrado mais de 1 registro não é para atualizar 
-            const ColaboradoresJaPresentesEmOutrosProjetos = result.map(value => value['c_nome']) // Pegar o nome de todos os colaboradores que já estão presentes em um projeto para devolver para o front-end
-            throw new HttpException(`Não pode fazer associar colaboradores que já estão presentes em outros projetos ativos. São estes: ${ColaboradoresJaPresentesEmOutrosProjetos}`, 500)
-        }
     }
 }

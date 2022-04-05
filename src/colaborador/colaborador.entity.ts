@@ -1,6 +1,8 @@
-import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { IsBoolean, IsDateString, IsNumber, IsOptional, IsString, MinLength } from 'class-validator';
+import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { IsBoolean, IsDateString, IsOptional, IsString, MinLength } from 'class-validator';
 import { ApiProperty } from "@nestjs/swagger";
+import { Projeto } from "src/projeto/Projeto.entity";
+import { projeto_colaborador } from "src/projeto_colaborador/projeto_colaborador.entity";
 @Entity()
 export class Colaborador {
     @PrimaryGeneratedColumn()
@@ -29,6 +31,9 @@ export class Colaborador {
     @IsBoolean()
     ativo: boolean
 
+    @OneToMany(() => projeto_colaborador, projeto_colaborador => projeto_colaborador.colaborador)
+    projeto_colaborador!: projeto_colaborador[]
+
     @CreateDateColumn()
     criado_em: Date;
 
@@ -39,9 +44,7 @@ export class Colaborador {
     insertToUpperCase(){
         this.nome = this.nome.toUpperCase().trim();
         this.cargo = this.cargo.toUpperCase().trim();
-
     }
-
 
     @BeforeUpdate()
     updateToUpperCase(){
