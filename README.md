@@ -12,7 +12,7 @@ API afim de gerenciar projetos com nome, data, status e colabores participantes.
 
 ## :wrench: Tecnologias utilizadas
 * [NestJS](https://nestjs.com/)
-* SQLite
+* PostgreSQL
 * [TypeORM](https://typeorm.io/#/)
 * [JwT](https://jwt.io/)
 * [typeorm-encrypt](https://github.com/generalpiston/typeorm-encrypted)
