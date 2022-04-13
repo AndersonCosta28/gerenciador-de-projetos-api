@@ -13,7 +13,7 @@ API afim de gerenciar projetos com nome, data, status e colabores participantes.
 ## :wrench: Tecnologias utilizadas
 * [NestJS](https://nestjs.com/)
 * PostgreSQL
-* [TypeORM](https://typeorm.io/#/)
+* [Bcrypt](https://www.npmjs.com/package/bcrypt/)
 * [JwT](https://jwt.io/)
 * [typeorm-encrypt](https://github.com/generalpiston/typeorm-encrypted)
 
@@ -31,8 +31,6 @@ npm run start
 ## :warning: Avisos
 ### Recomendável ter um arquivo .env na raiz do projeto com os seguintes campos:
 * SECRECT = Este é para o scret do JWT, qualquer string aleatória já serve
-* ENCRYPT_KEY = Para criptografia do typeorm-encrypt. Caso de dúvida da uma olhada na [documentação](https://github.com/generalpiston/typeorm-encrypted)
-* ENCRYPT_IV = Para critpgrafia do typeorm-encrypt. Caso de dúvida da uma olhada na [documentação](https://github.com/generalpiston/typeorm-encrypted)
 
 <!-- ## :soon: Implementação futura
 * O que será implementado na próxima sprint? -->
