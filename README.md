@@ -61,4 +61,4 @@ Obs.:
 </table>
 
 ## :dart: Status do projeto
-* Andamento
+* Concluído
