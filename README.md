@@ -15,7 +15,7 @@ API afim de gerenciar projetos com nome, data, status e colabores participantes.
 * PostgreSQL
 * [Bcrypt](https://www.npmjs.com/package/bcrypt/)
 * [JwT](https://jwt.io/)
-* [typeorm-encrypt](https://github.com/generalpiston/typeorm-encrypted)
+* [TypeORM](https://typeorm.io/)
 
 ## :rocket: <span id="rodando_o_projeto">Rodando o projeto</span>
 Para rodar o repositório é necessário clonar o mesmo, dar o seguinte comando para iniciar o projeto:
