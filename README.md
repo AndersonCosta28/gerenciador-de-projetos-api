@@ -18,7 +18,7 @@ API afim de gerenciar projetos com nome, data, status e colabores participantes.
 * [TypeORM](https://typeorm.io/)
 
 ## :rocket: <span id="rodando_o_projeto">Rodando o projeto</span>
-Para rodar o repositório é necessário clonar o mesmo, dar o seguinte comando para iniciar o projeto:
+Para rodar o repositório é necessário clonar o mesmo, e executar os seguintse comandos para iniciar o projeto:
 ```
 <
 npm i
