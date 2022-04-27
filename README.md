@@ -12,7 +12,7 @@ API afim de gerenciar projetos com nome, data, status e colabores participantes.
 
 ## :wrench: Tecnologias utilizadas
 * [NestJS](https://nestjs.com/)
-* PostgreSQL
+* [PostgreSQL](https://www.postgresql.org/)
 * [Bcrypt](https://www.npmjs.com/package/bcrypt/)
 * [JwT](https://jwt.io/)
 * [TypeORM](https://typeorm.io/)
@@ -36,14 +36,14 @@ npm run start
 * O que será implementado na próxima sprint? -->
 
 ## :runner: Como funciona:
-1. Executar os <a href="#rodando_o_projeto">comandos para compilar e iniciar o projeto</a>
+1. Executar os [comandos para compilar e iniciar o projeto](#rodando_o_projeto)
 2. Com o [Postman](https://www.postman.com/) ou [Insomnia](https://insomnia.rest/download), acessar a [rota de login](http://localhost:3000/auth/login) `http://localhost:3000/auth/login`, ele irá usar a porta 3000
 3. <span id="etapa_3">No método POST iremos passar no corpo da requisição `{"username": "admin", "password": "123456"}`, este é o usuário padrão criado a partir da migration</span>
 4. <span id="etapa_4">O retorno da requisição acima será um TOKEN JWT que iremos utilizar</span>
-5. Esse TOKEN iremos usar na aba de autorização para utilizar em todos os outros endpoint's, o type é Bearer token, [segue print](https://i.ibb.co/g64YFDh/postman-usando-o-token.png) <img src ="https://i.ibb.co/g64YFDh/postman-usando-o-token.png" alt="Postman, login">
+5. Esse TOKEN iremos usar na aba de autorização para utilizar em todos os outros endpoint's, o type é Bearer token, segue o print: ![Postman, login](https://i.ibb.co/g64YFDh/postman-usando-o-token.png)
 
 Obs.:
-* O token retornado <a href="#etapa_4">(etapa 4)</a> tem tempo de expiração de 1 hora, caso expire é necessário fazer o login novamente <a href="#etapa_3">(etapa 3)</a>, gerando um novo TOKEN.
+* O token retornado [etapa 4](#etapa_4) tem tempo de expiração de 1 hora, caso expire é necessário fazer o login novamente [etapa 3](#etapa_3), gerando um novo TOKEN.
 * Use a [rota](http://localhost:3000/api/) `http://localhost:3000/api/` para ver documentação da api
 
 ## :handshake: Colaboradores
